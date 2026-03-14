@@ -10,3 +10,9 @@ demo/
 *.log
 __pycache__/
 .DS_Store
+
+*.zip
+*.tar
+*.rar
+*.iso
+*.exe

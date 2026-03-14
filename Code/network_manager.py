@@ -211,3 +211,4 @@ def connect():
     
     # 3. Run a quick connectivity test
     # return net_mgr.test_connectivity()
+    return True

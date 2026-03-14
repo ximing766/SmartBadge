@@ -23,7 +23,7 @@ log = Logger("Main", log_dir="/usr", level=DEBUG)
 def perform_ota_update():
     log.info("Starting OTA Update...")
     
-    base_url = "https://raw.githubusercontent.com/ximing766/SmartBadge/main/Code/"
+    base_url = "https://cdn.jsdelivr.net/gh/ximing766/SmartBadge@main/Code/"
     
     file_list = [
         {'file_name': '/usr/main.py', 'url': base_url + 'main.py'},
@@ -37,10 +37,7 @@ def perform_ota_update():
         fota = app_fota.new()
         log.info("Downloading files from: {}".format(base_url))
         
-        # bulk_download returns a dict with 'success' list and 'fail' list? Or exceptions?
-        # Official docs say it raises exception on error or returns result.
-        # Let's assume standard behavior.
-        fota.bulk_download(file_list)
+        fota.bulk_download(file_list)  # batch download
         
         log.info("Download complete. Setting update flag...")
         fota.set_update_flag()
@@ -54,16 +51,21 @@ def perform_ota_update():
 
 def s2_handler(pin):
     log.info("Button S2 Pressed!")
-    # Wake up or keep awake during recording
-    pm_mgr.pm_mgr.lock("recording")
-    audio_rec.recorder.start_record()
+    basic.d4.on()
+    perform_ota_update()
+    basic.d4.off()
+
+    # pm_mgr.pm_mgr.lock("recording")
+    # audio_rec.recorder.start_record()
+    
 
 def s3_handler(pin):
     log.info("Button S3 Pressed!")
-    if audio_rec.recorder.is_recording:
-        audio_rec.recorder.stop_record()
-        # Allow sleep after recording
-        pm_mgr.pm_mgr.unlock("recording")
+    basic.d3.blink()
+    # if audio_rec.recorder.is_recording:
+    #     audio_rec.recorder.stop_record()
+
+    #     pm_mgr.pm_mgr.unlock("recording")
     # else:
     #     audio_rec.recorder.play_recording()
 
