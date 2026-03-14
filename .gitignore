@@ -1,0 +1,12 @@
+# QuecPython Project Git Ignore
+USBDriver/
+QPythonFW/
+QPYcom/
+demo/
+
+# System and IDE
+.vscode/
+.idea/
+*.log
+__pycache__/
+.DS_Store

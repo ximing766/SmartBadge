@@ -1,0 +1,87 @@
+<mxfile host="mcp"><diagram name="Page-1"><mxGraphModel>
+  <root>
+    <mxCell id="0"/>
+    <mxCell id="1" parent="0"/>
+    
+    <!-- Title -->
+    <mxCell id="title" value="QuecPython Cellular Networking Flow &amp; Architecture" style="text;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=18;fontStyle=1" vertex="1" parent="1">
+      <mxGeometry x="200" y="20" width="400" height="30" as="geometry"/>
+    </mxCell>
+
+    <!-- Layers -->
+    <mxCell id="hw_layer" value="Hardware / Carrier" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="40" y="80" width="160" height="400" as="geometry"/>
+    </mxCell>
+    <mxCell id="sim_card" value="SIM Card" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="hw_layer">
+      <mxGeometry x="20" y="40" width="120" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="bs" value="Base Station (BTS)" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="hw_layer">
+      <mxGeometry x="20" y="160" width="120" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="core_net" value="EPC (Core Network)" style="rounded=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="hw_layer">
+      <mxGeometry x="20" y="280" width="120" height="60" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="fw_layer" value="Firmware (Internal)" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="240" y="80" width="200" height="400" as="geometry"/>
+    </mxCell>
+    <mxCell id="auto_dial" value="Auto Dial State Machine" style="rounded=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1" vertex="1" parent="fw_layer">
+      <mxGeometry x="20" y="40" width="160" height="300" as="geometry"/>
+    </mxCell>
+    <mxCell id="ip_stack" value="TCP/IP Stack" style="rounded=1;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="fw_layer">
+      <mxGeometry x="40" y="340" width="120" height="40" as="geometry"/>
+    </mxCell>
+
+    <mxCell id="app_layer" value="Python Application" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+      <mxGeometry x="480" y="80" width="280" height="400" as="geometry"/>
+    </mxCell>
+    <mxCell id="checknet_api" value="checkNet.waitNetworkReady()" style="rounded=1;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="app_layer">
+      <mxGeometry x="40" y="40" width="200" height="60" as="geometry"/>
+    </mxCell>
+    <mxCell id="net_mgr" value="network_manager.py&#xa;(Wrapper)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="app_layer">
+      <mxGeometry x="40" y="140" width="200" height="100" as="geometry"/>
+    </mxCell>
+    <mxCell id="main_app" value="main.py&#xa;(Business Logic)" style="rounded=1;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="app_layer">
+      <mxGeometry x="40" y="300" width="200" height="60" as="geometry"/>
+    </mxCell>
+
+    <!-- Connections -->
+    <!-- HW to FW -->
+    <mxCell id="e1" value="Status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.167;" edge="1" parent="1" source="sim_card" target="auto_dial">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e2" value="Register" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="bs" target="auto_dial">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e3" value="Assign IP" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.833;" edge="1" parent="1" source="core_net" target="auto_dial">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+
+    <!-- FW to App -->
+    <mxCell id="e4" value="Poll Status" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;" edge="1" parent="1" source="auto_dial" target="checknet_api">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="460" y="230"/>
+          <mxPoint x="460" y="150"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- App Flow -->
+    <mxCell id="e5" value="Call" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="net_mgr" target="checknet_api">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e6" value="Wait for Connect" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;entryX=0.5;entryY=1;" edge="1" parent="1" source="main_app" target="net_mgr">
+      <mxGeometry relative="1" as="geometry"/>
+    </mxCell>
+    <mxCell id="e7" value="Data Transfer" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;entryX=1;entryY=0.5;" edge="1" parent="1" source="main_app" target="ip_stack">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="460" y="410"/>
+          <mxPoint x="460" y="440"/>
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+  </root>
+</mxGraphModel></diagram></mxfile>
