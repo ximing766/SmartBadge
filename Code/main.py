@@ -23,7 +23,7 @@ log = Logger("Main", log_dir="/usr", level=DEBUG)
 def perform_ota_update():
     log.info("Starting OTA Update...")
     
-    base_url = "https://cdn.jsdelivr.net/gh/ximing766/SmartBadge@main/Code/"
+    base_url = "https://gitee.com/ximing766/SmartBadge/raw/main/Code/"
     
     file_list = [
         {'file_name': '/usr/main.py', 'url': base_url + 'main.py'},

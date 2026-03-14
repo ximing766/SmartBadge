@@ -25,6 +25,7 @@ class AliyunIotClient:
         self.device_name    = device_name
         self.device_secret  = device_secret
         self.ali            = None
+        self.count          = 0
 
     def connect(self, client_id="", keep_alive=300):
         try:
@@ -65,7 +66,8 @@ class AliyunIotClient:
     def publish(self, topic, msg):
         if self.ali:
             self.ali.publish(topic, msg)
-            log.info("Published to topic: {}".format(topic))
+            log.info("The {} Published to topic: {}".format(self.count, topic))
+            self.count += 1
 
     def _error_cb(self, err):
         log.error("Aliyun internal error: {}".format(err))

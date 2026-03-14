@@ -30,7 +30,7 @@ def stop_timer(timer):
         timer.stop()
 
 class INFO:
-    def __init__(self, version="FW_20260309"):
+    def __init__(self, version="FW_20260314"):
         self.version = version
     
     def get_version(self):
@@ -96,10 +96,11 @@ class LED:
         self.pin.write(self.state)
         
     def blink(self, interval_ms=500):
-        self.on()
-        utime.sleep_ms(interval_ms)
-        self.off()
-        utime.sleep_ms(interval_ms)
+        for _ in range(3):
+            self.on()
+            utime.sleep_ms(interval_ms)
+            self.off()
+            utime.sleep_ms(interval_ms)
 
 class Button:
     def __init__(self, pin_num, callback, trigger=ExtInt.IRQ_FALLING, pull=ExtInt.PULL_PU):
