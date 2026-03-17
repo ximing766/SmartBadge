@@ -31,7 +31,8 @@ def perform_ota_update():
         {'file_name': '/usr/basic.py', 'url': base_url + 'basic.py'},
         {'file_name': '/usr/pm_manager.py', 'url': base_url + 'pm_manager.py'},
         {'file_name': '/usr/network_manager.py', 'url': base_url + 'network_manager.py'},
-        {'file_name': '/usr/logger.py', 'url': base_url + 'logger.py'}
+        {'file_name': '/usr/logger.py', 'url': base_url + 'logger.py'},
+        {'file_name': '/usr/time_sync.py', 'url': base_url + 'time_sync.py'}
     ]
     try:
         fota = app_fota.new()
@@ -125,7 +126,7 @@ def hardware_init():
     sim.setSimDet(1, 1)
 
     time_sync.timesync.sync_time()
-    
+
     # Enable Auto Sleep
     # pm_mgr.pm_mgr.enable_autosleep(False)
     
