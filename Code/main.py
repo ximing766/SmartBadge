@@ -14,6 +14,7 @@ import usr.basic as basic
 import usr.audio_recorder as audio_rec
 import usr.network_manager as net_mgr
 import usr.pm_manager as pm_mgr
+import usr.time_sync as time_sync
 import ujson
 import app_fota
 from misc import Power
@@ -32,7 +33,6 @@ def perform_ota_update():
         {'file_name': '/usr/network_manager.py', 'url': base_url + 'network_manager.py'},
         {'file_name': '/usr/logger.py', 'url': base_url + 'logger.py'}
     ]
-    
     try:
         fota = app_fota.new()
         log.info("Downloading files from: {}".format(base_url))
@@ -64,7 +64,6 @@ def s3_handler(pin):
     basic.d3.blink()
     # if audio_rec.recorder.is_recording:
     #     audio_rec.recorder.stop_record()
-
     #     pm_mgr.pm_mgr.unlock("recording")
     # else:
     #     audio_rec.recorder.play_recording()
@@ -125,8 +124,10 @@ def hardware_init():
     # 使能sim卡热插拔
     sim.setSimDet(1, 1)
 
+    time_sync.timesync.sync_time()
+    
     # Enable Auto Sleep
-    pm_mgr.pm_mgr.enable_autosleep(False)
+    # pm_mgr.pm_mgr.enable_autosleep(False)
     
     basic.init_buttons(s2_handler, s3_handler)
 
